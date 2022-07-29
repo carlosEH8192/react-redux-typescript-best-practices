@@ -1,18 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import { useAppSelector } from '../common/hooks';
+import { Counter } from '../features/counter';
 import './App.css';
 
-function App() {
+export const App = () => {
+  const { status, errorMessage } = useAppSelector((state) => state.global);
+
   return (
     <div className="App">
+      {errorMessage && <h1 style={{ color: 'red' }}>Ocorreu um erro!</h1>}
+
+      {status === 'loading' && (
+        <h1 style={{ color: 'green' }}>Carregando...</h1>
+      )}
+
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <Counter />
-        <p>
+
+        <p data-testid="p-edit">
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <span>
+
+        <span data-testid="span-learn">
           <span>Learn </span>
           <a
             className="App-link"
@@ -53,6 +61,4 @@ function App() {
       </header>
     </div>
   );
-}
-
-export default App;
+};
